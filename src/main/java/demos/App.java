@@ -39,7 +39,6 @@ public class App {
     public static void main(String[] args) throws java.io.IOException {
 
         boolean acknowledged;
-        String response;
 
         //Open connection to Elasticsearch
         log.printf(Level.INFO, "fiestamapper demo data loader started");
