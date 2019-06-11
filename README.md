@@ -1,4 +1,4 @@
-For 2019 I dumped the fiestas into Json, incuding:
+For 2019 I translated the fiestas into Json, incuding:
 
 - Fiesta Nacional no sustituible
 - Fiesta Nacional respecto de la que no se ha ejercido la facultad de sustitución
