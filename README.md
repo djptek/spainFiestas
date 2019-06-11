@@ -121,7 +121,11 @@ GET fiestas_vs_comunidad_autonoma/_search
    }
  }
 }
+```
 
+Here is a sample aggregation Vs ```comunidad_autonoma_vs_fiestas```
+
+```
 # Now let's aggregate on the geo_point field
 GET comunidad_autonoma_vs_fiestas/_search
 {
