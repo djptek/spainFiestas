@@ -1,6 +1,11 @@
 package demos;
 
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +14,7 @@ import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 
 import java.io.File;
@@ -23,6 +29,8 @@ public class App {
     private static String HOSTNAME = "localhost";
     private static String SCHEME = "http";
     private static String FIESTAS_BULK_NDJSON = "src/main/resources/fiestas.js";
+    private static String USERNAME = "elastic";
+    private static String PASSWORD = "password";
 
     private static int PORT = 9200;
 
@@ -40,11 +48,26 @@ public class App {
 
         boolean acknowledged;
 
+        final CredentialsProvider credentialsProvider =
+                new BasicCredentialsProvider();
+
+        credentialsProvider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(USERNAME, PASSWORD));
+
         //Open connection to Elasticsearch
         log.printf(Level.INFO, "fiestamapper demo data loader started");
         RestHighLevelClient client = new RestHighLevelClient(
                 RestClient.builder(
-                        new HttpHost(HOSTNAME, PORT, SCHEME)));
+                        new HttpHost(HOSTNAME, PORT, SCHEME))
+                        .setHttpClientConfigCallback(
+                                new RestClientBuilder.HttpClientConfigCallback() {
+                                        @Override
+                                        public HttpAsyncClientBuilder customizeHttpClient(
+                                                HttpAsyncClientBuilder httpClientBuilder) {
+                                            return httpClientBuilder
+                                                    .setDefaultCredentialsProvider(credentialsProvider);
+                                        }
+                                }));
 
         //Add a pipeline to coerce document ID to the value of field fiesta
         acknowledged = ScriptPipeline.put(ScriptPipeline.FIESTA_TO_ID, client);

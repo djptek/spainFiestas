@@ -18,7 +18,6 @@ final class ScanToBulk {
 
     private final String INDEX = "index";
     private final String DELETE = "delete";
-    private final String PIPELINE = "pipeline";
 
     private void add(IndexRequest indexRequest) {
         bulkRequest.add(indexRequest);
