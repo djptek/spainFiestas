@@ -6,7 +6,7 @@ For 2019 I translated the fiestas into Json, incuding:
 
 Source: https://www.boe.es/diario_boe/verifica.php?c=BOE-A-2018-14369&acc=Verificar&fix_bug_chrome=foo.pdf
 
-Please check vs PDF in case of error & **PRs welcome to add any city/local fiestas**. Please include a URL verifying the local fiesta)
+Please check vs PDF in case of error & **PRs welcome to add any city/local fiestas**. Please include a URL verifying the local fiesta
 
 Then I indexed it into Elasticsearch see: https://github.com/elastic/elasticsearch
 
