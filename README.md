@@ -8,7 +8,7 @@ Source: https://www.boe.es/diario_boe/verifica.php?c=BOE-A-2018-14369&acc=Verifi
 
 Please check vs PDF in case of error & **PRs welcome to add any city/local fiestas**. Please include a URL verifying the local fiesta and a commit note with the coordinates of the fiesta, e.g. `ANDALUCIA("ANDALUCÍA", "ES-AN", -5.98, 37.37)`
 
-To-do: move coordinates into separate resource file
+To-do: move coordinates into separate resource file, add city/local fiestas.
 
 Then I indexed it into Elasticsearch see: https://github.com/elastic/elasticsearch
 
