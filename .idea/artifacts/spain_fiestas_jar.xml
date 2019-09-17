@@ -55,8 +55,9 @@
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch.plugin/lang-mustache-client/7.1.1/d3a72d93abed9fd817d17ee11e254d578ca4d9e9/lang-mustache-client-7.1.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.elasticsearch/elasticsearch-x-content/7.1.1/84ec4bf821ce201a7c08d59440c7f1c174f1a63f/elasticsearch-x-content-7.1.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar" path-in-jar="/" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/fiestas.js" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/fiestas.comunidad.js" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/log4j2.xml" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-cli/commons-cli/1.4/c51c00206bb913cd8612b24abd9fa98ae89719b1/commons-cli-1.4.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

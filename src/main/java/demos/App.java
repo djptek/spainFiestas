@@ -1,5 +1,6 @@
 package demos;
 
+import org.apache.commons.cli.*;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -26,12 +27,12 @@ import java.util.Scanner;
 public class App {
 
     private static Logger log = LogManager.getLogger(App.class);
+    private static String FIESTAS_BULK_NDJSON = "src/main/resources/fiestas.comunidad.js";
+
     private static String HOSTNAME = "localhost";
     private static String SCHEME = "http";
-    private static String FIESTAS_BULK_NDJSON = "src/main/resources/fiestas.js";
     private static String USERNAME = "elastic";
     private static String PASSWORD = "password";
-
     private static int PORT = 9200;
 
     private static void dumpBulkResponse(BulkResponse bulkResponse) {
@@ -44,10 +45,35 @@ public class App {
         }
     }
 
-    public static void main(String[] args) throws java.io.IOException {
+    public static void main(String[] args) throws java.io.IOException, ParseException {
 
         boolean acknowledged;
 
+        if (args.length > 0) {
+            // get connection details from command line options
+            Options options = new Options();
+            // add t option
+            options.addOption("p", true, "password default <" + PASSWORD + ">");
+            options.addOption("u", true, "username default <" + USERNAME + ">");
+            options.addOption("H", true, "Host default <" + HOSTNAME + ">");
+            options.addOption("P", true, "Port default <" + PORT + ">");
+            options.addOption("S", true, "Scheme [http|https] default <" + SCHEME + ">");
+
+            // automatically generate the help statement
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("spain.fiestas", options);
+
+            CommandLineParser parser = new DefaultParser();
+            // parse the command line arguments
+            CommandLine line = parser.parse(options, args);
+            if (line.hasOption("p")) PASSWORD = line.getOptionValue("p");
+            if (line.hasOption("u")) USERNAME = line.getOptionValue("u");
+            if (line.hasOption("H")) HOSTNAME = line.getOptionValue("H");
+            if (line.hasOption("P")) PORT = Integer.valueOf(line.getOptionValue("P"));
+            if (line.hasOption("S")) SCHEME = line.getOptionValue("S");
+        }
+
+        // connect to Elasticsearch
         final CredentialsProvider credentialsProvider =
                 new BasicCredentialsProvider();
 
@@ -61,12 +87,12 @@ public class App {
                         new HttpHost(HOSTNAME, PORT, SCHEME))
                         .setHttpClientConfigCallback(
                                 new RestClientBuilder.HttpClientConfigCallback() {
-                                        @Override
-                                        public HttpAsyncClientBuilder customizeHttpClient(
-                                                HttpAsyncClientBuilder httpClientBuilder) {
-                                            return httpClientBuilder
-                                                    .setDefaultCredentialsProvider(credentialsProvider);
-                                        }
+                                    @Override
+                                    public HttpAsyncClientBuilder customizeHttpClient(
+                                            HttpAsyncClientBuilder httpClientBuilder) {
+                                        return httpClientBuilder
+                                                .setDefaultCredentialsProvider(credentialsProvider);
+                                    }
                                 }));
 
         //Add a pipeline to coerce document ID to the value of field fiesta

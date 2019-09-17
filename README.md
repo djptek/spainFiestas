@@ -8,7 +8,18 @@ Source: https://www.boe.es/diario_boe/verifica.php?c=BOE-A-2018-14369&acc=Verifi
 
 Please check vs PDF in case of error & **PRs welcome to add any city/local fiestas**. Please include a URL verifying the local fiesta and a commit note with the coordinates of the fiesta, e.g. `ANDALUCIA("ANDALUCÍA", "ES-AN", -5.98, 37.37)`
 
-To-do: move coordinates into separate resource file
+**usage: spain.fiestas**
+ -H <arg>   Host default <localhost>
+ -p <arg>   password default <password>
+ -P <arg>   Port default <9200>
+ -S <arg>   Scheme [http|https] default <http>
+ -u <arg>   username default <elastic>
+
+To-do: 
+- [ ] Tidy up command line params
+- [ ] Move Community coordinates into separate resource file
+- [ ] add Cities 
+- [ ] Define Capitals <= Cities 
 
 Then I indexed it into Elasticsearch see: https://github.com/elastic/elasticsearch
 
