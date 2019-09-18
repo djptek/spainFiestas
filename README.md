@@ -15,11 +15,11 @@ usage: spain.fiestas*
  -P,--port <arg>       Port default <9200>
  -S,--scheme <arg>     Scheme [http|https] default <http>
  -u,--username <arg>   username default <elastic>
-``
+```
 
 To-do: 
 - [ ] Tidy up command line params
-- [ ] Move Community coordinates into separate resource file
+- [ ] M`ove Community coordinates into separate resource file
 - [ ] add Cities 
 - [ ] Define Capitals <= Cities 
 
