@@ -53,11 +53,11 @@ public class App {
             // get connection details from command line options
             Options options = new Options();
             // add t option
-            options.addOption("p", true, "password default <" + PASSWORD + ">");
-            options.addOption("u", true, "username default <" + USERNAME + ">");
-            options.addOption("H", true, "Host default <" + HOSTNAME + ">");
-            options.addOption("P", true, "Port default <" + PORT + ">");
-            options.addOption("S", true, "Scheme [http|https] default <" + SCHEME + ">");
+            options.addOption("p", "password", true, "password default <" + PASSWORD + ">");
+            options.addOption("u", "username", true, "username default <" + USERNAME + ">");
+            options.addOption("H", "host", true, "Host default <" + HOSTNAME + ">");
+            options.addOption("P", "port", true, "Port default <" + PORT + ">");
+            options.addOption("S", "scheme", true, "Scheme [http|https] default <" + SCHEME + ">");
 
             // automatically generate the help statement
             HelpFormatter formatter = new HelpFormatter();
