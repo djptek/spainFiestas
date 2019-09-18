@@ -19,6 +19,7 @@ import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.Scanner;
 
 /*
@@ -45,32 +46,43 @@ public class App {
         }
     }
 
+    static private Options getOptions() {
+        Options options = new Options();
+        options.addOption("h", "help", false, "Show this help");
+        options.addOption("p", "password", true, "password default <" + PASSWORD + ">");
+        options.addOption("u", "username", true, "username default <" + USERNAME + ">");
+        options.addOption("H", "host", true, "Host default <" + HOSTNAME + ">");
+        options.addOption("P", "port", true, "Port default <" + PORT + ">");
+        options.addOption("S", "scheme", true, "Scheme [http|https] default <" + SCHEME + ">");
+        return options;
+    }
+
+    static private void setOptions(CommandLine line) {
+        if (line.hasOption("p")) PASSWORD = line.getOptionValue("p");
+        if (line.hasOption("u")) USERNAME = line.getOptionValue("u");
+        if (line.hasOption("H")) HOSTNAME = line.getOptionValue("H");
+        if (line.hasOption("P")) PORT = Integer.valueOf(line.getOptionValue("P"));
+        if (line.hasOption("S")) SCHEME = line.getOptionValue("S");
+    }
+
+    static private void printHelp(Options options) {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp(System.getProperty("java.class.path"), options);
+    }
+
     public static void main(String[] args) throws java.io.IOException, ParseException {
 
         boolean acknowledged;
 
         if (args.length > 0) {
-            // get connection details from command line options
-            Options options = new Options();
-            // add t option
-            options.addOption("p", "password", true, "password default <" + PASSWORD + ">");
-            options.addOption("u", "username", true, "username default <" + USERNAME + ">");
-            options.addOption("H", "host", true, "Host default <" + HOSTNAME + ">");
-            options.addOption("P", "port", true, "Port default <" + PORT + ">");
-            options.addOption("S", "scheme", true, "Scheme [http|https] default <" + SCHEME + ">");
-
-            // automatically generate the help statement
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("spain.fiestas", options);
-
-            CommandLineParser parser = new DefaultParser();
-            // parse the command line arguments
-            CommandLine line = parser.parse(options, args);
-            if (line.hasOption("p")) PASSWORD = line.getOptionValue("p");
-            if (line.hasOption("u")) USERNAME = line.getOptionValue("u");
-            if (line.hasOption("H")) HOSTNAME = line.getOptionValue("H");
-            if (line.hasOption("P")) PORT = Integer.valueOf(line.getOptionValue("P"));
-            if (line.hasOption("S")) SCHEME = line.getOptionValue("S");
+            Options options = getOptions();
+            CommandLine line = new DefaultParser().parse(options, args);
+            if (line.hasOption("h")) {
+                printHelp(options);
+                return;
+            } else {
+                setOptions(line);
+            }
         }
 
         // connect to Elasticsearch
@@ -86,14 +98,8 @@ public class App {
                 RestClient.builder(
                         new HttpHost(HOSTNAME, PORT, SCHEME))
                         .setHttpClientConfigCallback(
-                                new RestClientBuilder.HttpClientConfigCallback() {
-                                    @Override
-                                    public HttpAsyncClientBuilder customizeHttpClient(
-                                            HttpAsyncClientBuilder httpClientBuilder) {
-                                        return httpClientBuilder
-                                                .setDefaultCredentialsProvider(credentialsProvider);
-                                    }
-                                }));
+                                httpClientBuilder -> httpClientBuilder
+                                        .setDefaultCredentialsProvider(credentialsProvider)));
 
         //Add a pipeline to coerce document ID to the value of field fiesta
         acknowledged = ScriptPipeline.put(ScriptPipeline.FIESTA_TO_ID, client);
