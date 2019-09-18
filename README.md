@@ -9,16 +9,17 @@ Source: https://www.boe.es/diario_boe/verifica.php?c=BOE-A-2018-14369&acc=Verifi
 Please check vs PDF in case of error & **PRs welcome to add any city/local fiestas**. Please include a URL verifying the local fiesta and a commit note with the coordinates of the fiesta, e.g. `ANDALUCIA("ANDALUCÍA", "ES-AN", -5.98, 37.37)`
 
 ```
-usage: spain.fiestas*
+usage: spain.fiestas
+ -h,--help             Show this help
  -H,--host <arg>       Host default <localhost>
  -p,--password <arg>   password default <password>
  -P,--port <arg>       Port default <9200>
  -S,--scheme <arg>     Scheme [http|https] default <http>
  -u,--username <arg>   username default <elastic>
-```
+ ```
 
 To-do: 
-- [ ] Tidy up command line params
+- [X] Tidy up command line params
 - [ ] Move Community coordinates into separate resource file
 - [ ] add Cities 
 - [ ] Define Capitals <= Cities 
