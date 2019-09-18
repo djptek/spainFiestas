@@ -19,7 +19,7 @@ usage: spain.fiestas*
 
 To-do: 
 - [ ] Tidy up command line params
-- [ ] M`ove Community coordinates into separate resource file
+- [ ] Move Community coordinates into separate resource file
 - [ ] add Cities 
 - [ ] Define Capitals <= Cities 
 
