@@ -28,7 +28,8 @@ import java.util.Scanner;
 public class App {
 
     private static Logger log = LogManager.getLogger(App.class);
-    private static String FIESTAS_BULK_NDJSON = "src/main/resources/fiestas.comunidad.js";
+    private static String FIESTAS_BULK_NDJSON = "src/main/resources/fiestas.comunidad.ndjson";
+    private static String KIBANA_1_BULK_NDJSON = "src/main/resources/kibana_1_bulk.ndjson";
 
     private static String HOSTNAME = "localhost";
     private static String SCHEME = "http";
@@ -152,10 +153,31 @@ public class App {
             }
         }
 
+        // now add Kibana Objects read data into a new Bulk Request
+        scanner = new Scanner(new File(KIBANA_1_BULK_NDJSON)).useDelimiter("\n");
+        bulkRequest = new ScanToBulk(
+                scanner,
+                new BulkRequest())
+                .getBulkRequest();
+        scanner.close();
+
+        // Send the bulk request
+        bulkRequest.setRefreshPolicy(org.elasticsearch.action.support.WriteRequest.RefreshPolicy.WAIT_UNTIL);
+
+        bulkResponse = client.bulk(bulkRequest,
+                RequestOptions.DEFAULT);
+
+        dumpBulkResponse(bulkResponse);
+
+        if (bulkResponse.hasFailures()) {
+            log.printf(Level.ERROR, "Bulk index failed for Kibana Objects");
+        } else {
+            log.printf(Level.INFO, "Bulk index OK for Kibana Objects");
+        }            // refactor to new bulk request
+
         client.close();
 
     }
-
 
 }
 

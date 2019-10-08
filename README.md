@@ -6,6 +6,15 @@ For 2019 I translated the fiestas into Json, incuding:
 
 Source: https://www.boe.es/diario_boe/verifica.php?c=BOE-A-2018-14369&acc=Verificar&fix_bug_chrome=foo.pdf
 
+Additional Data: lat/lon from 
+http://centrodedescargas.cnig.es/CentroDescargas/equipamiento.do?method=mostrarEquipamiento
+See License: http://www.ign.es/resources/licencia/Condiciones_licenciaUso_IGN.pdf
+
+Adapted from native *.mdb format using: https://github.com/brianb/mdbtools thanks @brianb really useful toolkit
+
+Valencia Province Municipality Fiestas edited and partially corrected by hand from:
+http://www.indi.gva.es/documents/21189/167329017/Calendari+Laboral+Val%C3%A8ncia+-+2019/dcab751f-c6d7-4ea5-9a6b-a51bf69a4d24
+                                      
 Please check vs PDF in case of error & **PRs welcome to add any city/local fiestas**. Please include a URL verifying the local fiesta and a commit note with the coordinates of the fiesta, e.g. `ANDALUCIA("ANDALUCÍA", "ES-AN", -5.98, 37.37)`
 
 ```
@@ -21,8 +30,7 @@ usage: spain.fiestas
 To-do: 
 - [X] Tidy up command line params
 - [ ] Move Community coordinates into separate resource file
-- [ ] add Cities 
-- [ ] Define Capitals <= Cities 
+- [ ] add Municipalities *WIP*
 
 Then I indexed it into Elasticsearch see: https://github.com/elastic/elasticsearch
 
