@@ -30,6 +30,7 @@ public class App {
     private static Logger log = LogManager.getLogger(App.class);
     private static String FIESTAS_BULK_NDJSON = "src/main/resources/fiestas.comunidad.ndjson";
     private static String KIBANA_1_BULK_NDJSON = "src/main/resources/kibana_1_bulk.ndjson";
+    private static String MUNICIPIOS_BULK_NDJSON = "src/main/resources/provincias.valencia.fiestasmunicpales.ndjson";
 
     private static String HOSTNAME = "localhost";
     private static String SCHEME = "http";
