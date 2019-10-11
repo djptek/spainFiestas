@@ -15,7 +15,22 @@ Adapted from native *.mdb format using: https://github.com/brianb/mdbtools thank
 Valencia Province Municipality Fiestas edited and partially corrected by hand from:
 http://www.indi.gva.es/documents/21189/167329017/Calendari+Laboral+Val%C3%A8ncia+-+2019/dcab751f-c6d7-4ea5-9a6b-a51bf69a4d24
                                       
-Please check vs PDF in case of error & **PRs welcome to add any city/local fiestas**. Please include a URL verifying the local fiesta and a commit note with the coordinates of the fiesta, e.g. `ANDALUCIA("ANDALUCÍA", "ES-AN", -5.98, 37.37)`
+Please check vs PDF in case of error & **PRs welcome to add any Municipal Fiestas for Other Communities fiestas**. 
+
+Please name your file: 
+
+```provincias.<provincia>.fieastas.municipales.ndjson```
+
+and use the following format:
+
+```
+{"provincia":"VALÈNCIA","municipio":"ADEMUZ","date":"29-04-2019","fiesta":"SANT VICENT FERRER"}
+{"provincia":"VALÈNCIA","municipio":"ADEMUZ","date":"12-08-2019","fiesta":"L’ASSUMPCIÓ DE LA MARE DE DÉU"}
+{"provincia":"VALÈNCIA","municipio":"ADOR","date":"21-08-2019","fiesta":"MARE DE DÉU DE LORETO"}
+{"provincia":"VALÈNCIA","municipio":"ADOR","date":"22-08-2019","fiesta":"SANTISSEM CRIST DE L’EMPAR"}
+```
+
+Note: Please use a separate line for each fiesta/municipio
 
 ```
 usage: spain.fiestas

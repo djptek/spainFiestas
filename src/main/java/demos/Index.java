@@ -23,7 +23,21 @@ enum Index {
             "{\"properties\":{\"comunidad\":"
                     + "{\"type\":\"keyword\"},\"fiesta\":{\"properties\":{\"date\":{\"type\":\"date\"},\"name\":{\"type\":"
                     + "\"keyword\"}}},\"isocode\":{\"type\":\"keyword\"},\"location_geo_point\":{\"type\":\"geo_point\"},"
-                    + "\"location_geo_shape\":{\"type\":\"geo_shape\"}}}");
+                    + "\"location_geo_shape\":{\"type\":\"geo_shape\"}}}"),
+    MUNICIPIO_VS_FIESTAS("municipio_vs_fiestas",
+            "{\"number_of_shards\":1,\"number_of_replicas\":0}",
+            "{\"properties\":{"
+                        + "\"provincia\":{\"type\":\"keyword\"},"
+                        + "\"municipio\":{\"properties\":{"
+                            + "\"name\":{\"type\":\"keyword\"},"
+                            + "\"location_geo_point\":{\"type\":\"geo_point\"}}},"
+                        + "\"fiesta\":{\"properties\":{"
+                            + "\"date\":{\"type\":\"date\"},"
+                            + "\"name\":{\"type\":\"keyword\"}}}}}"),
+    MUNICIPIO_VS_COORDS("municipio_vs_coords",
+            "{\"number_of_shards\":1,\"number_of_replicas\":0}",
+            "{}");
+
 
     public String lowerCaseString;
     public String settings;
