@@ -30,7 +30,7 @@ public class App {
     private static Logger log = LogManager.getLogger(App.class);
     private static String FIESTAS_BULK_NDJSON = "src/main/resources/fiestas.comunidad.ndjson";
     private static String KIBANA_1_BULK_NDJSON = "src/main/resources/kibana_1_bulk.ndjson";
-    private static String MUNICIPIOS_BULK_NDJSON = "src/main/resources/provincias.valencia.fiestasmunicpales.ndjson";
+    //private static String MUNICIPIOS_BULK_NDJSON = "src/main/resources/provincias.valencia.fiestasmunicpales.ndjson";
 
     private static String HOSTNAME = "localhost";
     private static String SCHEME = "http";
@@ -115,12 +115,16 @@ public class App {
                     index, acknowledged);
         }
 
+        CoordinatesLookup coordinatesLookup = new CoordinatesLookup();
+        coordinatesLookup.loadIndex(client);
+
         // read data into a new Bulk Request
         Scanner scanner = new Scanner(new File(FIESTAS_BULK_NDJSON)).useDelimiter("\n");
         BulkRequest bulkRequest = new ScanToBulk(
                 scanner,
                 new BulkRequest(),
-                Index.FIESTAS_VS_COMUNIDAD_AUTONOMA)
+                Index.FIESTAS_VS_COMUNIDAD_AUTONOMA,
+                true)
                 .getBulkRequest();
         scanner.close();
 

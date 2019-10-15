@@ -32,6 +32,25 @@ final class ScanToBulk {
     }
 
     // Package a bulk import file in NDJSON format to a bulk request
+    ScanToBulk(Scanner scanner, BulkRequest bulkRequest, Index index, Boolean AddOperation) throws IOException {
+
+        if (AddOperation) {
+            this.bulkRequest = bulkRequest;
+            while (scanner.hasNext()) {
+                String payload = scanner.nextLine();
+                IndexRequest indexRequest = new IndexRequest(index.lowerCaseString);
+                this.add(indexRequest.source(payload, XContentType.JSON));
+            }
+        } else {
+            this.bulkRequest = new ScanToBulk(
+                    scanner,
+                    bulkRequest,
+                    index)
+                    .getBulkRequest();
+        }
+    }
+
+    // Package a bulk import file in NDJSON format to a bulk request
     ScanToBulk(Scanner scanner, BulkRequest bulkRequest, Index index) throws IOException {
         this.bulkRequest = bulkRequest;
 
