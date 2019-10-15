@@ -118,49 +118,12 @@ public class App {
         CoordinatesLookup coordinatesLookup = new CoordinatesLookup();
         coordinatesLookup.loadIndex(client);
 
-        // read data into a new Bulk Request
-        Scanner scanner = new Scanner(new File(FIESTAS_BULK_NDJSON)).useDelimiter("\n");
-        BulkRequest bulkRequest = new ScanToBulk(
-                scanner,
-                new BulkRequest(),
-                Index.FIESTAS_VS_COMUNIDAD_AUTONOMA,
-                true)
-                .getBulkRequest();
-        scanner.close();
-
-        // Send the bulk request
-        bulkRequest.setRefreshPolicy(org.elasticsearch.action.support.WriteRequest.RefreshPolicy.WAIT_UNTIL);
-
-        BulkResponse bulkResponse = client.bulk(bulkRequest,
-                RequestOptions.DEFAULT);
-
-        dumpBulkResponse(bulkResponse);
-
-        if (bulkResponse.hasFailures()) {
-            log.printf(Level.ERROR, "Bulk index failed, abandoning");
-        } else {
-            log.printf(Level.INFO, "Bulk index OK, denormalizing");
-            // refactor to new bulk request
-            BulkRequest remappedBulkRequest = new AggsToBulk(
-                    Index.FIESTAS_VS_COMUNIDAD_AUTONOMA,
-                    Index.COMUNIDAD_AUTONOMA_VS_FIESTAS,
-                    client,
-                    new BulkRequest()
-            ).getBulkRequest();
-
-            // check bulk count to ensure at least 1 action was added
-            if (remappedBulkRequest.numberOfActions() > 0) {
-                bulkResponse = client.bulk(remappedBulkRequest,
-                        RequestOptions.DEFAULT);
-                dumpBulkResponse(bulkResponse);
-            } else {
-                log.printf(Level.WARN, "Failed to Populate Bulk Request");
-            }
-        }
+        Comunidades comunidades = new Comunidades();
+        comunidades.load(client, new File(FIESTAS_BULK_NDJSON));
 
         // now add Kibana Objects read data into a new Bulk Request
-        scanner = new Scanner(new File(KIBANA_1_BULK_NDJSON)).useDelimiter("\n");
-        bulkRequest = new ScanToBulk(
+        Scanner scanner = new Scanner(new File(KIBANA_1_BULK_NDJSON)).useDelimiter("\n");
+        BulkRequest bulkRequest = new ScanToBulk(
                 scanner,
                 new BulkRequest())
                 .getBulkRequest();
@@ -169,7 +132,7 @@ public class App {
         // Send the bulk request
         bulkRequest.setRefreshPolicy(org.elasticsearch.action.support.WriteRequest.RefreshPolicy.WAIT_UNTIL);
 
-        bulkResponse = client.bulk(bulkRequest,
+        BulkResponse bulkResponse = client.bulk(bulkRequest,
                 RequestOptions.DEFAULT);
 
         dumpBulkResponse(bulkResponse);
