@@ -13,9 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-class Comunidades {
+class CommunityLoader { //implements DataLoader {
 
     private static Logger log = LogManager.getLogger(App.class);
+    private static BulkResponseDumper bulkResponseDumper = new BulkResponseDumper(log);
 
     static void load(RestHighLevelClient client, File file) throws IOException {
         // read Community Fiestas data into a new Bulk Request
@@ -34,13 +35,7 @@ class Comunidades {
         BulkResponse bulkResponse = client.bulk(bulkRequest,
                 RequestOptions.DEFAULT);
 
-        for (BulkItemResponse bulkItemResponse : bulkResponse.getItems()) {
-            log.printf(Level.INFO, "Bulk Operation [%s] id [%s] to [%s] status [%s]",
-                    bulkItemResponse.getOpType(),
-                    bulkItemResponse.getId(),
-                    bulkItemResponse.getIndex(),
-                    bulkItemResponse.status());
-        }
+        bulkResponseDumper.dump(bulkResponse);
 
         if (bulkResponse.hasFailures()) {
             log.printf(Level.ERROR, "Bulk index failed, abandoning");
@@ -58,14 +53,7 @@ class Comunidades {
             if (remappedBulkRequest.numberOfActions() > 0) {
                 bulkResponse = client.bulk(remappedBulkRequest,
                         RequestOptions.DEFAULT);
-                for (BulkItemResponse bulkItemResponse : bulkResponse.getItems()) {
-                    log.printf(Level.INFO, "Bulk Operation [%s] id [%s] to [%s] status [%s]",
-                            bulkItemResponse.getOpType(),
-                            bulkItemResponse.getId(),
-                            bulkItemResponse.getIndex(),
-                            bulkItemResponse.status());
-                }
-
+                bulkResponseDumper.dump(bulkResponse);
             } else {
                 log.printf(Level.WARN, "Failed to Populate Bulk Request");
             }

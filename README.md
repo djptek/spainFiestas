@@ -82,7 +82,7 @@ GET fiestas_vs_comunidad_autonoma/_search
  "aggs": {
    "check_comunidades": {
      "terms": {
-       "field": "comunidades",
+       "field": "comunidadesLoader",
        "size": 19,
        "order": {
          "_key": "asc"
@@ -99,7 +99,7 @@ GET fiestas_vs_comunidad_autonoma/_search?filter_path=**.key
  "aggs": {
    "my_comunidades": {
      "terms": {
-       "field": "comunidades",
+       "field": "comunidadesLoader",
        "size": 19,
        "order": {
          "_key": "asc"
@@ -130,7 +130,7 @@ GET fiestas_vs_comunidad_autonoma/_search?filter_path=**.date
 }
 
 # Which Community celebrates San José?
-GET fiestas_vs_comunidad_autonoma/_search?filter_path=**.comunidades
+GET fiestas_vs_comunidad_autonoma/_search?filter_path=**.comunidadesLoader
 {
  "query": {
    "match_phrase": {
@@ -147,7 +147,7 @@ GET fiestas_vs_comunidad_autonoma/_search
    "bool": {
      "must_not": [
        {"match": {
-         "comunidades": "MADRID"
+         "comunidadesLoader": "MADRID"
        }}
      ]
    }

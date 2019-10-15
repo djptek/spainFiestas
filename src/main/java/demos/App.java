@@ -6,7 +6,6 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,11 +14,9 @@ import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.Scanner;
 
 /*
@@ -118,30 +115,10 @@ public class App {
         CoordinatesLookup coordinatesLookup = new CoordinatesLookup();
         coordinatesLookup.loadIndex(client);
 
-        Comunidades comunidades = new Comunidades();
-        comunidades.load(client, new File(FIESTAS_BULK_NDJSON));
+        //CommunityLoader comunidadesLoader = new CommunityLoader();
+        CommunityLoader.load(client, new File(FIESTAS_BULK_NDJSON));
 
-        // now add Kibana Objects read data into a new Bulk Request
-        Scanner scanner = new Scanner(new File(KIBANA_1_BULK_NDJSON)).useDelimiter("\n");
-        BulkRequest bulkRequest = new ScanToBulk(
-                scanner,
-                new BulkRequest())
-                .getBulkRequest();
-        scanner.close();
-
-        // Send the bulk request
-        bulkRequest.setRefreshPolicy(org.elasticsearch.action.support.WriteRequest.RefreshPolicy.WAIT_UNTIL);
-
-        BulkResponse bulkResponse = client.bulk(bulkRequest,
-                RequestOptions.DEFAULT);
-
-        dumpBulkResponse(bulkResponse);
-
-        if (bulkResponse.hasFailures()) {
-            log.printf(Level.ERROR, "Bulk index failed for Kibana Objects");
-        } else {
-            log.printf(Level.INFO, "Bulk index OK for Kibana Objects");
-        }            // refactor to new bulk request
+        KibanaObjectsLoader.load(client, new File(KIBANA_1_BULK_NDJSON));
 
         client.close();
 
