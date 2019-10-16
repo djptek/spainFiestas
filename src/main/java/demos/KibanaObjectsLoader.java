@@ -13,30 +13,18 @@ import java.io.IOException;
 import java.util.Scanner;
 
 class KibanaObjectsLoader {
-    private static Logger log = LogManager.getLogger(App.class);
-    private static BulkResponseDumper bulkResponseDumper = new BulkResponseDumper(log);
+    private static Logger logger = LogManager.getLogger(App.class);
+    private static BulkResponseDumper bulkResponseDumper = new BulkResponseDumper(logger);
+    private static String filename = "src/main/resources/kibana_1_bulk.ndjson";
+    private static File file = new File(filename);
+    private static DataLoader dataLoader;
 
-    static void load(RestHighLevelClient client, File file) throws IOException {
-    // now add Kibana Objects read data into a new Bulk Request
-        Scanner scanner = new Scanner(file).useDelimiter("\n");
-        BulkRequest bulkRequest = new ScanToBulk(
-                scanner,
-                new BulkRequest())
-                .getBulkRequest();
-        scanner.close();
-
-        // Send the bulk request
-        bulkRequest.setRefreshPolicy(org.elasticsearch.action.support.WriteRequest.RefreshPolicy.WAIT_UNTIL);
-
-        BulkResponse bulkResponse = client.bulk(bulkRequest,
-                RequestOptions.DEFAULT);
-
-        bulkResponseDumper.dump(bulkResponse);
-
-        if (bulkResponse.hasFailures()) {
-            log.printf(Level.ERROR, "Bulk index failed for Kibana Objects");
-        } else {
-            log.printf(Level.INFO, "Bulk index OK for Kibana Objects");
-        }            // refactor to new bulk request
+    KibanaObjectsLoader(RestHighLevelClient client) {
+        this.dataLoader = new DataLoader(client, file, logger);
     }
+
+    static void load() throws IOException {
+        dataLoader.load();
+    }
+
 }

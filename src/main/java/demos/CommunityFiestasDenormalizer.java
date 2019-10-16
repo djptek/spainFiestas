@@ -20,9 +20,9 @@ import java.io.IOException;
 import java.util.Map;
 
 
-final class AggsToBulk {
+final class CommunityFiestasDenormalizer {
 
-    private final Logger log = LogManager.getLogger(AggsToBulk.class);
+    private final Logger log = LogManager.getLogger(CommunityFiestasDenormalizer.class);
 
     private final BulkRequest bulkRequest;
 
@@ -38,7 +38,11 @@ final class AggsToBulk {
     }
 
     // Package a bulk import file in NDJSON format to a bulk request
-    AggsToBulk(Index from, Index to, RestHighLevelClient client, BulkRequest bulkRequest) throws IOException {
+    CommunityFiestasDenormalizer(
+            Index from,
+            Index to,
+            RestHighLevelClient client,
+            BulkRequest bulkRequest) throws IOException {
         this.bulkRequest = bulkRequest;
 
         SearchRequest searchRequest = new SearchRequest()

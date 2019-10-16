@@ -7,15 +7,15 @@ import org.elasticsearch.action.bulk.BulkResponse;
 
 class BulkResponseDumper {
 
-    private Logger log;
+    private Logger logger;
 
     BulkResponseDumper (Logger log) {
-        this.log = log;
+        this.logger = log;
     }
 
     void dump(BulkResponse bulkResponse) {
         for (BulkItemResponse bulkItemResponse : bulkResponse.getItems()) {
-        log.printf(Level.INFO, "Bulk Operation [%s] id [%s] to [%s] status [%s]",
+        logger.printf(Level.INFO, "Bulk Operation [%s] id [%s] to [%s] status [%s]",
                 bulkItemResponse.getOpType(),
                 bulkItemResponse.getId(),
                 bulkItemResponse.getIndex(),

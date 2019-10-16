@@ -25,9 +25,6 @@ import java.util.Scanner;
 public class App {
 
     private static Logger log = LogManager.getLogger(App.class);
-    private static String FIESTAS_BULK_NDJSON = "src/main/resources/fiestas.comunidad.ndjson";
-    private static String KIBANA_1_BULK_NDJSON = "src/main/resources/kibana_1_bulk.ndjson";
-    //private static String MUNICIPIOS_BULK_NDJSON = "src/main/resources/provincias.valencia.fiestasmunicpales.ndjson";
 
     private static String HOSTNAME = "localhost";
     private static String SCHEME = "http";
@@ -112,13 +109,18 @@ public class App {
                     index, acknowledged);
         }
 
-        CoordinatesLookup coordinatesLookup = new CoordinatesLookup();
-        coordinatesLookup.loadIndex(client);
+        CoordinatesLookup coordinatesLookup = new CoordinatesLookup(client);
+        coordinatesLookup.loadIndex();
 
         //CommunityLoader comunidadesLoader = new CommunityLoader();
-        CommunityLoader.load(client, new File(FIESTAS_BULK_NDJSON));
+        CommunityLoader communityLoader = new CommunityLoader(client);
+        communityLoader.load();
 
-        KibanaObjectsLoader.load(client, new File(KIBANA_1_BULK_NDJSON));
+        KibanaObjectsLoader kibanaObjectsLoader = new KibanaObjectsLoader(client);
+        kibanaObjectsLoader.load();
+
+        MunicipalityFiestasLoader municipalityFiestasLoader = new MunicipalityFiestasLoader(client);
+        municipalityFiestasLoader.load();
 
         client.close();
 
