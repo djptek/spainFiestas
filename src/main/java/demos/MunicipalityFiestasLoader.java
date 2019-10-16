@@ -4,7 +4,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.search.TotalHits;
-import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -14,25 +13,22 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.*;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.elasticsearch.search.aggregations.metrics.ParsedTopHits;
+
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
-import static com.sun.tools.internal.xjc.reader.Ring.add;
-import static demos.Index.MUNICIPIO_VS_FIESTAS;
 
 class MunicipalityFiestasLoader {
 
@@ -55,6 +51,11 @@ class MunicipalityFiestasLoader {
     private static String LON_KEY = "lon";
     private static String LOCATION_KEY = "location_geo_point";
 
+    private static DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
+            .parseCaseInsensitive()
+            .append(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+            .toFormatter();
+
     MunicipalityFiestasLoader(RestHighLevelClient client) {
         this.client = client;
         this.dataLoader = new DataLoader(client, file, logger);
@@ -72,11 +73,11 @@ class MunicipalityFiestasLoader {
                             nextLine);
             Map<String, Object> requestMap = parser.map();
 
-            logger.printf(Level.INFO, "Municipality "+requestMap.get(MUNICIPIO_KEY).toString());
+            logger.printf(Level.INFO, "Municipality " + requestMap.get(MUNICIPIO_KEY).toString());
 
             List<QueryBuilder> clauses = new ArrayList<>();
-            clauses.add(QueryBuilders.matchQuery(PROVINCIA_KEY,requestMap.get(PROVINCIA_KEY).toString()));
-            clauses.add(QueryBuilders.matchQuery(MUNICIPIO_KEY,requestMap.get(MUNICIPIO_KEY).toString()));
+            clauses.add(QueryBuilders.matchQuery(PROVINCIA_KEY, requestMap.get(PROVINCIA_KEY).toString()));
+            clauses.add(QueryBuilders.matchQuery(MUNICIPIO_KEY, requestMap.get(MUNICIPIO_KEY).toString()));
             BoolQueryBuilder query = new BoolQueryBuilder();
             query.filter().addAll(clauses);
 
@@ -93,10 +94,10 @@ class MunicipalityFiestasLoader {
 
             if (numHits < 1) {
                 logger.printf(Level.WARN,
-                        "No Match for Municipality "+requestMap.get(MUNICIPIO_KEY).toString());
+                        "No Match for Municipality " + requestMap.get(MUNICIPIO_KEY).toString());
             } else {
                 logger.printf(Level.INFO,
-                        "Found Unique Match for Municipality "+requestMap.get(MUNICIPIO_KEY).toString());
+                        "Found Unique Match for Municipality " + requestMap.get(MUNICIPIO_KEY).toString());
                 SearchHit[] hit = searchHits.getHits();
                 Map<String, Object> sourceAsMap = hit[0].getSourceAsMap();
                 logger.printf(Level.DEBUG,
@@ -106,12 +107,15 @@ class MunicipalityFiestasLoader {
                 try {
                     //.id(requestMap.get(MUNICIPIO_KEY).toString() + ":" + requestMap.get(DATE_KEY).toString())
                     IndexRequest indexRequest = new IndexRequest(
-                            MUNICIPIO_VS_FIESTAS.lowerCaseString)
+                            Index.MUNICIPIO_VS_FIESTAS.lowerCaseString)
                             .source(XContentFactory.jsonBuilder()
                                     .startObject()
                                     .field(PROVINCIA_KEY, requestMap.get(PROVINCIA_KEY).toString())
                                     .startObject(FIESTA_KEY)
-                                    .field(DATE_KEY, requestMap.get(DATE_KEY).toString())
+                                    .field(DATE_KEY,
+                                            LocalDate.parse(
+                                                    requestMap.get(DATE_KEY).toString(),
+                                                    dateTimeFormatter).toString())
                                     .field(NAME_KEY, requestMap.get(FIESTA_KEY).toString())
                                     .endObject()
                                     .startObject(MUNICIPIO_KEY)
@@ -121,7 +125,7 @@ class MunicipalityFiestasLoader {
                                             Double.parseDouble(sourceAsMap.get(LAT_KEY).toString())})
                                     .endObject()
                                     .endObject());
-                    logger.printf(Level.DEBUG, "Index Request is "+indexRequest.toString());
+                    logger.printf(Level.DEBUG, "Index Request is " + indexRequest.toString());
                     bulkRequest.add(indexRequest);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -129,6 +133,7 @@ class MunicipalityFiestasLoader {
             }
         }
         scanner.close();
-        dataLoader.load(bulkRequest);
+        BulkResponse bulkResponse = dataLoader.load(bulkRequest);
+        bulkResponseDumper.dump(bulkResponse);
     }
 }

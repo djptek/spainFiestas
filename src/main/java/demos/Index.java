@@ -32,7 +32,7 @@ enum Index {
                             + "\"name\":{\"type\":\"keyword\"},"
                             + "\"location_geo_point\":{\"type\":\"geo_point\"}}},"
                         + "\"fiesta\":{\"properties\":{"
-                            + "\"date\":{\"type\":\"date\",\"format\": \"d-MM-YYYY\"},"
+                            + "\"date\":{\"type\":\"date\"},"
                             + "\"name\":{\"type\":\"keyword\"}}}}}"),
     MUNICIPIO_VS_COORDS("municipio_vs_coords",
             "{\"number_of_shards\":1,\"number_of_replicas\":0}",

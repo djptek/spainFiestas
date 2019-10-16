@@ -13,10 +13,10 @@ import java.io.IOException;
 
 class DataLoader {
 
-    static Logger logger;
-    static File file;
-    static BulkResponseDumper bulkResponseDumper;
-    static RestHighLevelClient client;
+    private static Logger logger;
+    private static File file;
+    private static BulkResponseDumper bulkResponseDumper;
+    private static RestHighLevelClient client;
 
     DataLoader (RestHighLevelClient client, File file, Logger logger) {
         this.logger = logger;
