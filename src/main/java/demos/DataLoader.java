@@ -43,7 +43,7 @@ class DataLoader {
     }
 
 
-    static BulkResponse load(Index index) throws IOException {
+    BulkResponse load(Index index) throws IOException {
         BulkRequest bulkRequest = new FileToBulkHelper(
                 file,
                 new BulkRequest(),
@@ -52,7 +52,7 @@ class DataLoader {
         return sendBulk(client, bulkRequest);
     }
 
-    static BulkResponse load() throws IOException {
+    BulkResponse load() throws IOException {
         BulkRequest bulkRequest = new FileToBulkHelper(
                 file,
                 new BulkRequest())
@@ -61,7 +61,7 @@ class DataLoader {
         return sendBulk(client, bulkRequest);
     }
 
-    static BulkResponse load(BulkRequest bulkRequest) throws IOException {
+    BulkResponse load(BulkRequest bulkRequest) throws IOException {
         return sendBulk(client, bulkRequest);
     }
 

@@ -26,7 +26,7 @@ class CommunityLoader {
         this.dataLoader = new DataLoader(client, file, logger);
     }
 
-    static void load() throws IOException {
+    void load() throws IOException {
         // read Community Fiestas data into a new Bulk Request
         BulkResponse bulkResponse = dataLoader.load(Index.FIESTAS_VS_COMUNIDAD_AUTONOMA);
 

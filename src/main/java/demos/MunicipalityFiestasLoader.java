@@ -61,7 +61,7 @@ class MunicipalityFiestasLoader {
         this.dataLoader = new DataLoader(client, file, logger);
     }
 
-    static void load() throws IOException {
+    void load() throws IOException {
         Scanner scanner = new Scanner(file).useDelimiter("\n");
 
         while (scanner.hasNext()) {

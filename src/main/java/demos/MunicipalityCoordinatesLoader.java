@@ -20,7 +20,7 @@ class MunicipalityCoordinatesLoader {
         this.dataLoader = new DataLoader(client, file, logger);
     }
 
-    static void load() throws IOException {
+    void load() throws IOException {
         dataLoader.load(Index.MUNICIPIO_VS_COORDS);
     }
 }

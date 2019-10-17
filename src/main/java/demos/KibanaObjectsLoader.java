@@ -23,7 +23,7 @@ class KibanaObjectsLoader {
         this.client = client;
     }
 
-    static void load() throws IOException {
+    void load() throws IOException {
         for (String filename : filenames) {
             logger.log(Level.INFO, "Loading Kibana Objects "+filename);
             File file = new File(filename);

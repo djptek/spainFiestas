@@ -27,7 +27,7 @@ enum ScriptPipeline {
         this.source = source;
     }
 
-    static public Boolean put(ScriptPipeline scriptPipeline,
+    public static Boolean put(ScriptPipeline scriptPipeline,
                               RestHighLevelClient client) throws IOException {
         AcknowledgedResponse response = client.ingest()
                 .putPipeline(new PutPipelineRequest(
