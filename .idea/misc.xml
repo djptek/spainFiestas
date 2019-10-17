@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$USER_HOME$/Dropbox/git/spain.fiestas/src/main/resources/.kibana_1_bulk.ndjson" />
+    <file url="file://$USER_HOME$/Dropbox/git/spain.fiestas/src/main/resources/.kibana_2_bulk.ndjson" />
     <file url="file://$USER_HOME$/Dropbox/git/spain.fiestas/src/main/resources/fiestas.comunidad.ndjson" />
     <file url="file://$USER_HOME$/Dropbox/git/spain.fiestas/src/main/resources/kibana_1_bulk.ndjson" />
     <file url="file://$USER_HOME$/Dropbox/git/spain.fiestas/src/main/resources/municipios.coordinates.ndjson" />
