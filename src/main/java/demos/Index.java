@@ -37,7 +37,14 @@ enum Index {
     MUNICIPIO_VS_COORDS("municipio_vs_coords",
             "{\"number_of_shards\":1,\"number_of_replicas\":0}",
             "{}");
-
+    /*
+    KIBANA_1(".kibana_1",
+            "{\"number_of_shards\":1,\"number_of_replicas\":0}",
+            "{}"),
+    KIBANA_2(".kibana_2",
+            "{\"number_of_shards\":1,\"number_of_replicas\":0}",
+            "{}");
+    */
 
     public String lowerCaseString;
     public String settings;

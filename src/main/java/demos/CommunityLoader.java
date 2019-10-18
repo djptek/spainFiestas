@@ -15,15 +15,18 @@ class CommunityLoader {
 
     private static Logger logger = LogManager.getLogger(App.class);
     private static BulkResponseDumper bulkResponseDumper = new BulkResponseDumper(logger);
-    private static String filename = "src/main/resources/fiestas.comunidad.ndjson";
-    private static File file = new File(filename);
-
+    private static String[] filenames = {
+            "src/main/resources/2019.fiestas.comunidad.ndjson",
+            "src/main/resources/2020.fiestas.comunidad.ndjson"};
     private static DataLoader dataLoader;
     private static RestHighLevelClient client;
 
     CommunityLoader (RestHighLevelClient client) {
         this.client = client;
-        this.dataLoader = new DataLoader(client, file, logger);
+        for (String filename : filenames) {
+            File file = new File(filename);
+            this.dataLoader = new DataLoader(client, file, logger);
+        }
     }
 
     void load() throws IOException {
