@@ -116,8 +116,11 @@ public class App {
         CommunityLoader communityLoader = new CommunityLoader(client);
         communityLoader.load();
 
+        /*
+        Need to migrate this to actual objects, not raw JSON otherqwise Kibana breaks :-(
         KibanaObjectsLoader kibanaObjectsLoader = new KibanaObjectsLoader(client);
         kibanaObjectsLoader.load();
+        */
 
         MunicipalityFiestasLoader municipalityFiestasLoader = new MunicipalityFiestasLoader(client);
         municipalityFiestasLoader.load();

@@ -1,10 +1,12 @@
-For 2019 I translated the fiestas into Json, incuding:
+For 2019 & 2020 I translated the fiestas into Json, incuding:
 
 - Fiesta Nacional no sustituible
 - Fiesta Nacional respecto de la que no se ha ejercido la facultad de sustitución
 - Fiesta de Comunidad Autónoma
 
 Source: https://www.boe.es/diario_boe/verifica.php?c=BOE-A-2018-14369&acc=Verificar&fix_bug_chrome=foo.pdf
+
+Source: https://www.boe.es/diario_boe/txt.php?id=BOE-A-2019-14552
 
 Additional Data: lat/lon from 
 http://centrodedescargas.cnig.es/CentroDescargas/equipamiento.do?method=mostrarEquipamiento
