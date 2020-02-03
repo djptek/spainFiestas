@@ -21,7 +21,7 @@ Please check vs PDF in case of error & **PRs welcome to add any Municipal Fiesta
 
 Please name your file: 
 
-```provincias.<provincia>.fieastas.municipales.ndjson```
+```provincias.<provincia>.fiestas.municipales.ndjson```
 
 and use the following format:
 
