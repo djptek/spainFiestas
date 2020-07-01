@@ -17,11 +17,13 @@ Adapted from native *.mdb format using: https://github.com/brianb/mdbtools thank
 Valencia Province Municipality Fiestas edited and partially corrected by hand from:
 http://www.indi.gva.es/documents/21189/167329017/Calendari+Laboral+Val%C3%A8ncia+-+2019/dcab751f-c6d7-4ea5-9a6b-a51bf69a4d24
                                       
+Note: Pending Update to http://www.indi.gva.es/documents/21189/169371820/Calendario+laboral+Val%C3%A8ncia+2020./e1bab491-fc38-4144-b35b-3b47d5920a86 
+                                      
 Please check vs PDF in case of error & **PRs welcome to add any Municipal Fiestas for Other Communities fiestas**. 
 
 Please name your file: 
 
-```provincias.<provincia>.fieastas.municipales.ndjson```
+```provincias.<provincia>.fiestas.municipales.ndjson```
 
 and use the following format:
 
